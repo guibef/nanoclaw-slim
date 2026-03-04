@@ -1,8 +1,17 @@
 import { initDatabase, setRegisteredGroup } from '../src/db.js';
 import { ASSISTANT_NAME } from '../src/config.js';
+import { readEnvFile } from '../src/env.js';
 
-const jid = 'slack:C0AJ8GT1JJ0';
-const name = 'all-frideg-ai';
+// Read Slack JID from .env
+const env = readEnvFile(['SLACK_MAIN_JID']);
+const jid = env.SLACK_MAIN_JID;
+
+if (!jid) {
+  console.error('Error: SLACK_MAIN_JID not set in .env');
+  process.exit(1);
+}
+
+const name = `My DM with ${ASSISTANT_NAME}`;
 
 initDatabase();
 
