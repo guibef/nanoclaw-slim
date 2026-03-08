@@ -414,6 +414,7 @@ async function runQuery(
     log(`Additional directories: ${extraDirs.join(', ')}`);
   }
 
+  log(`Using model: ${sdkEnv.ANTHROPIC_MODEL || 'default'}`);
   for await (const message of query({
     prompt: stream,
     options: {
@@ -421,6 +422,7 @@ async function runQuery(
       additionalDirectories: extraDirs.length > 0 ? extraDirs : undefined,
       resume: sessionId,
       resumeSessionAt: resumeAt,
+      model: sdkEnv.ANTHROPIC_MODEL,
       systemPrompt: globalClaudeMd
         ? { type: 'preset' as const, preset: 'claude_code' as const, append: globalClaudeMd }
         : undefined,
